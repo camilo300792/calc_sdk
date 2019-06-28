@@ -10,14 +10,16 @@ class Calc
     private $formula;
     use CalcFunctions;
 
-    public function calc($formula){
+    public function calc($formula) {
         $this->formula = $formula;
         if(isset(reader::reader($this->formula)['methods'])){
-            return $this->replaceFormulaWithCalcFunction(reader::reader($this->formula)['methods']);
+            return round($this->replaceFormulaWithCalcFunction(reader::reader($this->formula)['methods']), 2);
+        }else{
+            return round($this->singleOperation($this->formula), 2);
         }
     }
 
-    public function replaceFormulaWithCalcFunction(array $foundMethods){
+    public function replaceFormulaWithCalcFunction(array $foundMethods) {
         $result = null;
         foreach ($foundMethods as $method){
             switch ($method[0]){

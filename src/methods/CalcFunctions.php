@@ -41,7 +41,7 @@ trait CalcFunctions {
      */
     public function cMRound(string $value, string $factor){
         try{
-            $result = reader::retrieveValidEvalExpresion("round($value / $factor) * $factor");
+            $result = reader::retrieveValidEvalExpresion("round(($value) / $factor) * $factor");
             return $result;
         }catch (CalcException $exception){
             return $exception->getMessage();
@@ -58,7 +58,7 @@ trait CalcFunctions {
      */
     public function cCeiling(string $value, string $factor = '1'){
         try {
-            $result = reader::retrieveValidEvalExpresion("ceil($value / $factor) * $factor");
+            $result = reader::retrieveValidEvalExpresion("ceil(($value) / $factor) * $factor");
             return $result;
         } catch (CalcException $exception) {
             return $exception->getMessage();
@@ -76,7 +76,7 @@ trait CalcFunctions {
      */
     public function cFloor(string $value, string $factor = '1'){
         try {
-            $result = reader::retrieveValidEvalExpresion("floor($value / $factor) * $factor");
+            $result = reader::retrieveValidEvalExpresion("floor(($value) / $factor) * $factor");
             return $result;
         } catch (CalcException $exception) {
             return $exception->getMessage();
@@ -93,7 +93,7 @@ trait CalcFunctions {
      */
     public function singleOperation(string $value){
         try{
-            $result = reader::retrieveValidEvalExpresion($value);
+            $result = reader::retrieveValidEvalExpresion("$value");
             return $result;
         }catch (CalcException $exception){
             return $exception->getMessage();

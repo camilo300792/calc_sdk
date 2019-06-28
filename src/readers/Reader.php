@@ -46,14 +46,18 @@ abstract class Reader
     }
 
     /**
+     * Test expression and return a valid value
+     *
      * @param $expression
      * @return mixed
      * @throws CalcException
      */
     public static function retrieveValidEvalExpresion($expression){
-        if(!preg_match_all('/(\d+([.]\d+)?|pi|π)/', $expression))
+        if(!preg_match_all('/(\d+([.]\d+)?|pi|π)/', $expression)){
             throw new CalcException("Formula should be contain valid values");
-        $validExpression = preg_replace(['/\s+/', '/\,+/'], ['', '.'], $expression);
+        }
+        $validExpression = preg_replace(['/[\s\=]+/', '/\,+/', '/%/'], ['', '.', '/100'], $expression);
+
         return eval("return $validExpression ;");
     }
 
