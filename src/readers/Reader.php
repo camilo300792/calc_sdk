@@ -6,13 +6,25 @@ use Calc\Exceptions\CalcException;
 
 abstract class Reader
 {
+    /**
+     *
+     * Formula to read
+     * @var
+     */
     public static $formula;
 
+    /**
+     * Available sheets methods
+     */
     const METHODS = 'IF|CEILING|MROUND|FLOOR';
 
-    const MATH_OPERATORS = '[+\/*\^%-]';
-
-    public static function reader($formula){
+    /**
+     * Read sheets formula and returns its info
+     *
+     * @param $formula
+     * @return array
+     */
+    public static function reader(string $formula): array {
         self::$formula = $formula;
         $formulaInfo = [];
         if (self::containMethod()){
@@ -21,16 +33,37 @@ abstract class Reader
         return $formulaInfo;
     }
 
-    protected static function divideSingleFormula(){
-
+    /**
+     * Divide formula in sheets sections
+     *
+     * @return array
+     */
+    public static function divideFormulaSections() {
+        $pattern = '/\([^()]*\)/';
+        preg_match_all($pattern, self::$formula, $matches);
+        $sections = explode(';', preg_replace('/[()]/', '', implode('', $matches[0])));
+        return $sections;
     }
 
     /**
-     * Determine
+     * Return plain formula
+     *
+     * @param $method
+     * @param $result
+     * @return string|string[]|null
+     */
+    public static function retrievePlainFormula($method, $result) {
+        $pattern = '/=?' . $method . '\([^()]*\)/';
+        self::$formula = preg_replace($pattern, $result, self::$formula);
+        return self::$formula;
+    }
+
+    /**
+     * Determine if the formula contains valid methods
      *
      * @return bool
      */
-    protected static function containMethod(){
+    public static function containMethod(){
         if (preg_match('/' . self::METHODS . '/i', self::$formula) === 1){
             return true;
         }
@@ -57,7 +90,6 @@ abstract class Reader
             throw new CalcException("Formula should be contain valid values");
         }
         $validExpression = preg_replace(['/[\s\=]+/', '/\,+/', '/%/'], ['', '.', '/100'], $expression);
-
         return eval("return $validExpression ;");
     }
 

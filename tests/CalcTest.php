@@ -36,6 +36,12 @@ class CalcTest extends TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
+    public function testCalcIfWithFormula() {
+        $expectedResult = 0;
+        $actualResult = $this->calc->calc('=IF((40,5 + 15) < 201; 0; (40,5 + 15) * 4%)');
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
     public function testCalcCeilingWithFormula(){
         $expectedResult = 39900;
         $actualResult = $this->calc->calc('=CEILING(32 * 1000 - 240 / -45; 10000) - 100');

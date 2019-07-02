@@ -19,30 +19,46 @@ class Calc
         }
     }
 
-    public function replaceFormulaWithCalcFunction(array $foundMethods) {
+    private function replaceFormulaWithCalcFunction(array $foundMethods) {
         $result = null;
-        foreach ($foundMethods as $method){
-            switch ($method[0]){
+        $methods = sizeof($foundMethods) - 1;
+        # Nested: first method found, first method resolved
+        for ($i = $methods; $i >= 0; $i--) {
+            $method = $foundMethods[$i][0];
+            $sections = reader::divideFormulaSections();
+            switch ($method){
                 case 'IF':
-                    preg_match_all('/\([^()]*\)/', $this->formula, $matches);
-                    $formula = explode(';', preg_replace(['/[()]/', '/%/'], ['', '/100'], implode('', $matches[0])));
-                    $result = $this->cIf($formula[0], $formula[1], $formula[2]);
+                    $logicalExpression = $sections[0];
+                    $valueIfTrue = $sections[1];
+                    $valueIfFalse = $sections[2] ?? null;
+                    $formula = reader::retrievePlainFormula($method, $this->cIf($logicalExpression, $valueIfTrue, $valueIfFalse));
+                    if (!reader::containMethod()) {
+                        $result = $this->singleOperation($formula);
+                    }
                     break;
-                case 'CEILING':
-                    preg_match_all('/\([^()]*\)/', $this->formula, $matches);
-                    $formula = explode(';', preg_replace(['/[()]/', '/%/'], ['', '/100'], implode('', $matches[0])));
-                    //Cambiar $factor por opcional
-                    $value = preg_replace('/^=?'.$method[0].'\([^()]*\)/', $this->cCeiling($formula[0], isset($formula[1]) ? $formula[1]:1), $this->formula);
-                    $result = $this->singleOperation($value);
+                #Factor isn't mandatory
+                case $method == 'CEILING' || $method == 'FLOOR':
+                    $value = $sections[0];
+                    $factor = $sections[1] ?? 1;
+                    $partialResult = ($method == 'CEILING') ? $this->cCeiling($value, $factor):$this->cFloor($value, $factor);
+                    $formula = reader::retrievePlainFormula($method, $partialResult);
+                    if (!reader::containMethod()) {
+                        $result = $this->singleOperation($formula);
+                    }
                     break;
+                #Factor is $mandatory
                 case 'MROUND':
-                    preg_match_all('/\([^()]*\)/', $this->formula, $matches);
-                    $formula = explode(';', preg_replace(['/[()]/', '/%/'], ['', '/100'], implode('', $matches[0])));
-                    $value = preg_replace('/^=?'.$method[0].'\([^()]*\)/', $this->cMRound($formula[0], $formula[1]), $this->formula);
-                    $result = $this->singleOperation($value);
+                    $value = $sections[0];
+                    $factor = $sections[1];
+                    $formula = reader::retrievePlainFormula($method, $this->cMRound($value, $factor));
+                    if (!reader::containMethod()) {
+                        $result = $this->singleOperation($formula);
+                    }
                     break;
             }
+
         }
         return $result;
     }
+
 }

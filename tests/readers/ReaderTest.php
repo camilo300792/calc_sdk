@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ReaderTest extends TestCase
 {
-    const FORMULA = 'IF(10 > 5); 0; 10 - 5';
 
     /**
      * ReaderTest constructor.
@@ -14,8 +13,13 @@ class ReaderTest extends TestCase
     public function __construct()
     {
         parent::__construct();
-        reader::$formula = self::FORMULA;
     }
 
-
+    public function testReader(){
+        $actualResult = reader::reader("IF(1>3;1;3)");
+        $this->assertIsArray($actualResult);
+        $this->assertArrayHasKey('methods', $actualResult);
+        $actualResult = reader::reader("(51 - 12) * 2");
+        $this->assertArrayNotHasKey('methods', $actualResult);
+    }
 }
