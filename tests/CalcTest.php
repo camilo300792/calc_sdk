@@ -38,7 +38,7 @@ class CalcTest extends TestCase
 
     public function testCalcIfWithFormula() {
         $expectedResult = 0;
-        $actualResult = $this->calc->calc('=IF((40,5 + 15) < 201; 0; (40,5 + 15) * 4%)');
+        $actualResult = $this->calc->calc('=IF(40,5 + 15 < 201; 0; 40,5 + 15 * 4%)');
         $this->assertEquals($expectedResult, $actualResult);
     }
 

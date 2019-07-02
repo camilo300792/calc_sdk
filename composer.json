@@ -1,5 +1,5 @@
 {
-    "name": "camo/calc_sdk",
+    "name": "camo/fsheets-converter",
     "description": "Formulas sheets Google converter",
     "type": "library",
     "autoload": {

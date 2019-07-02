@@ -1,7 +1,7 @@
 # fsheets-converter
 
 Retorna el resultado de una formula de Google sheets.
-Funciones soportadas IF|CEILING|MROUND y calculos básicos.
+Funciones soportadas IF|CEILING|MROUND|FLOOR y calculos básicos.
 Actualmente está en una versión beta la cual esperamos hacer
 mucho más grande y robusta con el tiempo y porque no con tu ayuda.
 

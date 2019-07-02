@@ -36,8 +36,7 @@ class Calc
                         $result = $this->singleOperation($formula);
                     }
                     break;
-                #Factor isn't mandatory
-                case $method == 'CEILING' || $method == 'FLOOR':
+                case $method == 'CEILING' || $method == 'FLOOR': #Factor isn't mandatory
                     $value = $sections[0];
                     $factor = $sections[1] ?? 1;
                     $partialResult = ($method == 'CEILING') ? $this->cCeiling($value, $factor):$this->cFloor($value, $factor);
@@ -46,8 +45,7 @@ class Calc
                         $result = $this->singleOperation($formula);
                     }
                     break;
-                #Factor is $mandatory
-                case 'MROUND':
+                case 'MROUND': #Factor is $mandatory
                     $value = $sections[0];
                     $factor = $sections[1];
                     $formula = reader::retrievePlainFormula($method, $this->cMRound($value, $factor));
@@ -56,7 +54,6 @@ class Calc
                     }
                     break;
             }
-
         }
         return $result;
     }
