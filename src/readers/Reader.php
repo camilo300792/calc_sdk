@@ -3,6 +3,7 @@
 namespace Calc\Readers;
 
 use Calc\Exceptions\CalcException;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 abstract class Reader
 {
@@ -81,15 +82,16 @@ abstract class Reader
     /**
      * Test expression and return a valid value
      *
-     * @param $expression
+     * @param string $expression
      * @return mixed
      * @throws CalcException
      */
-    public static function retrieveValidEvalExpresion($expression){
+    public static function retrieveValidEvalExpresion(string $expression)  
+    {
         if(!preg_match_all('/(\d+([.]\d+)?|pi|π)/', $expression)){
             throw new CalcException("Formula should be contain valid values");
         }
-        $validExpression = preg_replace(['/[\s\=]+/', '/\,+/', '/%/'], ['', '.', '/100'], $expression);
+        $validExpression = preg_replace(['/[\s=]+/', '/,+/', '/%/'], ['', '.', '/100'], $expression);
         return eval("return $validExpression ;");
     }
 

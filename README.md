@@ -11,10 +11,22 @@ PHP 7.*
 
 ### Instalación 🔧
 
-Simplemente clona este repositorio.
+Agrega esto a tu composer.json.
 
 ```
-git clone https://github.com/camilo300792/fsheets-converter.git
+"repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/camilo300792/fsheets-converter.git"
+    }
+],
+"require": {
+    "camo/fsheets-converter": "*"
+}
+```
+
+```
+composer install
 ```
 
 Ejemplo básico con un CEILING

@@ -2,6 +2,7 @@
     "name": "camo/fsheets-converter",
     "description": "Formulas sheets Google converter",
     "type": "library",
+    "version": "v0.1",
     "autoload": {
         "classmap": [
             "src/"
@@ -19,9 +20,9 @@
             "email": "eliascamiloms92@gmail.com"
         }
     ],
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "require": {
         "php": "^7.0",
-        "ext-pdo": "*"
+        "ext-json": "*"
     }
 }

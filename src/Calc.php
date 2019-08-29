@@ -10,7 +10,8 @@ class Calc
     private $formula;
     use CalcFunctions;
 
-    public function calc($formula) {
+    public function calc($formula)
+    {
         $this->formula = $formula;
         if(isset(reader::reader($this->formula)['methods'])){
             return round($this->replaceFormulaWithCalcFunction(reader::reader($this->formula)['methods']), 2);
@@ -19,7 +20,8 @@ class Calc
         }
     }
 
-    private function replaceFormulaWithCalcFunction(array $foundMethods) {
+    private function replaceFormulaWithCalcFunction(array $foundMethods)
+    {
         $result = null;
         $methods = sizeof($foundMethods) - 1;
         # Nested: first method found, first method resolved
